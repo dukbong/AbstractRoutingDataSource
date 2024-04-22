@@ -17,24 +17,25 @@ import lombok.extern.slf4j.Slf4j;
 public class DataSourceAspect {
 
 	@Pointcut("execution(* com.example.masterslave.serviceImpl.*.*(..))")
-    public void serviceImplMethods() {}
-	
-    @Around("serviceImplMethods()")
-    public Object setDataSource(ProceedingJoinPoint joinPoint) throws Throwable {
-        String methodName = joinPoint.getSignature().getName();
+	public void serviceImplMethods() {
+	}
 
-        if (methodName.startsWith("get")) {
-        	log.info("Slave DB Connect..");
-            RoutingDataSource.setDataSourceType(DataSourceType.SLAVE);
-        } else {
-        	log.info("Master DB Connect..");
-            RoutingDataSource.setDataSourceType(DataSourceType.MASTER);
-        }
+	@Around("serviceImplMethods()")
+	public Object setDataSource(ProceedingJoinPoint joinPoint) throws Throwable {
+		String methodName = joinPoint.getSignature().getName();
 
-        try {
-            return joinPoint.proceed();  // Proceed with the method execution
-        } finally {
-            RoutingDataSource.clearDataSourceType();  // Clean up after execution
-        }
-    }
+		if (methodName.startsWith("get")) {
+			log.info("Slave DB Connect..");
+			RoutingDataSource.setDataSourceType(DataSourceType.SLAVE);
+		} else {
+			log.info("Master DB Connect..");
+			RoutingDataSource.setDataSourceType(DataSourceType.MASTER);
+		}
+
+		try {
+			return joinPoint.proceed(); // Proceed with the method execution
+		} finally {
+			RoutingDataSource.clearDataSourceType(); // Clean up after execution
+		}
+	}
 }

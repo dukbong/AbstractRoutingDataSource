@@ -20,23 +20,20 @@ public class Product {
 	@Id
 	@GeneratedValue(generator = "product_seq_gen")
 	private Long id;
-	
+
 	private String productName;
-	
+
 	private int productPrice;
-	
+
 	@Builder
 	public Product(Long id, String productName, int productPrice) {
 		this.id = id;
 		this.productName = productName;
 		this.productPrice = productPrice;
 	}
-	
+
 	public ProductDto convertDto() {
-		return ProductDto.builder()
-						 .productName(this.productName)
-						 .productPrice(this.productPrice)
-						 .build();
+		return ProductDto.builder().productName(this.productName).productPrice(this.productPrice).build();
 	}
-	
+
 }

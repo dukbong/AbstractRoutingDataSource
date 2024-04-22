@@ -16,16 +16,16 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
-	
+
 	private final ProductService productServiceImpl;
 
 	@GetMapping("/getProductList")
-	public ResponseEntity<List<ProductDto>> getProductList(){
+	public ResponseEntity<List<ProductDto>> getProductList() {
 		return ResponseEntity.ok().body(productServiceImpl.getProductList());
 	}
-	
+
 	@PostMapping("/writeProduct")
-	public ResponseEntity<ProductDto> writeProduct(@RequestBody ProductDto productDto){
+	public ResponseEntity<ProductDto> writeProduct(@RequestBody ProductDto productDto) {
 		return ResponseEntity.ok().body(productServiceImpl.writeProduct(productDto));
 	}
 }
